@@ -1,48 +1,36 @@
-from abc import ABC, abstractmethod
+class MyIterator:
+    def __init__(self, collection):
+        self._collection = collection
+        self._index = 0
 
-class Visitor(ABC):
-    @abstractmethod
-    def visit_city(self, city):
-        pass
+    def __iter__(self):
+        return self
 
-    @abstractmethod
-    def visit_industry(self, industry):
-        pass
-
-    @abstractmethod
-    def visit_sightseeing(self, sightseeing):
-        pass
-
-
-class City:
-    def accept(self, visitor):
-        visitor.visit_city(self)
-
-    def __str__(self):
-        return "City"
+    def __next__(self):
+        if self._index < len(self._collection):
+            result = self._collection[self._index]
+            self._index += 1
+            return result
+        else:
+            raise StopIteration
 
 
-class Industry:
-    def accept(self, visitor):
-        visitor.visit_industry(self)
+class MyCollection:
+    def __init__(self):
+        self._items = []
 
-    def __str__(self):
-        return "Industry"
+    def add_item(self, item):
+        self._items.append(item)
+
+    def __iter__(self):
+        return MyIterator(self._items)
 
 
-class SightSeeing:
-    def accept(self, visitor):
-        visitor.visit_sightseeing(self)
 
-    def __str__(self):
-        return "SightSeeing"
+collection = MyCollection()
+collection.add_item("item1")
+collection.add_item("item2")
+collection.add_item("item3")
 
-class ExportVisitor(Visitor):
-    def visit_city(self, city):
-        print(f"Exporting data for {city}")
-
-    def visit_industry(self, industry):
-        print(f"Exporting data for {industry}")
-
-    def visit_sightseeing(self, sightseeing):
-        print(f"Exporting data for {sightseeing}")
+for item in collection:
+    print(item)
