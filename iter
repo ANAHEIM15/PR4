@@ -1,0 +1,48 @@
+from abc import ABC, abstractmethod
+
+class Visitor(ABC):
+    @abstractmethod
+    def visit_city(self, city):
+        pass
+
+    @abstractmethod
+    def visit_industry(self, industry):
+        pass
+
+    @abstractmethod
+    def visit_sightseeing(self, sightseeing):
+        pass
+
+
+class City:
+    def accept(self, visitor):
+        visitor.visit_city(self)
+
+    def __str__(self):
+        return "City"
+
+
+class Industry:
+    def accept(self, visitor):
+        visitor.visit_industry(self)
+
+    def __str__(self):
+        return "Industry"
+
+
+class SightSeeing:
+    def accept(self, visitor):
+        visitor.visit_sightseeing(self)
+
+    def __str__(self):
+        return "SightSeeing"
+
+class ExportVisitor(Visitor):
+    def visit_city(self, city):
+        print(f"Exporting data for {city}")
+
+    def visit_industry(self, industry):
+        print(f"Exporting data for {industry}")
+
+    def visit_sightseeing(self, sightseeing):
+        print(f"Exporting data for {sightseeing}")
